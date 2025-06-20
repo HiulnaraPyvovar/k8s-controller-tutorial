@@ -3,11 +3,14 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )
+
+var logLevel string
 
 var rootCmd = &cobra.Command{
 	Use:   "k8s-controller-tutorial",
@@ -31,23 +34,65 @@ to quickly create a Cobra application.`,
 	},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
+func parseLogLevel(lvl string) zerolog.Level {
+	switch strings.ToLower(lvl) {
+	case "trace":
+		return zerolog.TraceLevel
+	case "debug":
+		return zerolog.DebugLevel
+	case "info":
+		return zerolog.InfoLevel
+	case "warn":
+		return zerolog.WarnLevel
+	case "error":
+		return zerolog.ErrorLevel
+	case "fatal":
+		return zerolog.FatalLevel
+	default:
+		return zerolog.InfoLevel
+	}
+}
+
+func configureLogger(level zerolog.Level) {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnixMs
+	zerolog.SetGlobalLevel(level)
+	if level == zerolog.TraceLevel {
+		zerolog.CallerMarshalFunc = func(pc uintptr, file string, line int) string {
+			return fmt.Sprintf("%s:%d", file, line)
+		}
+		zerolog.CallerFieldName = "caller"
+		log.Logger = log.Output(zerolog.ConsoleWriter{
+			Out:        os.Stderr,
+			TimeFormat: "2006-01-02 15:04:05.000",
+			PartsOrder: []string{
+				zerolog.TimestampFieldName,
+				zerolog.LevelFieldName,
+				zerolog.CallerFieldName,
+				zerolog.MessageFieldName,
+			},
+		}).With().Caller().Logger()
+	} else if level == zerolog.DebugLevel {
+		log.Logger = log.Output(zerolog.ConsoleWriter{
+			Out:        os.Stderr,
+			TimeFormat: "2006-01-02 15:04:05.000",
+			PartsOrder: []string{
+				zerolog.TimestampFieldName,
+				zerolog.LevelFieldName,
+				zerolog.MessageFieldName,
+			},
+		})
+	} else {
+		log.Logger = log.Output(os.Stderr)
+	}
+}
+
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.k8s-controller-tutorial.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVar(&logLevel, "log-level", "info", "Set log level: trace, debug, info, warn, error")
 }
