@@ -31,7 +31,6 @@ to quickly create a Cobra application.`,
 		log.Trace().Msg("This is a trace log")
 		log.Warn().Msg("This is a warning log")
 		log.Error().Msg("This is an error log")
-		log.Fatal().Msg("This is a fatal log")
 		fmt.Println("Welcome to the k8s-controller-tutorial CLI!")
 	},
 }
@@ -48,8 +47,6 @@ func parseLogLevel(lvl string) zerolog.Level {
 		return zerolog.WarnLevel
 	case "error":
 		return zerolog.ErrorLevel
-	case "fatal":
-		return zerolog.FatalLevel
 	default:
 		return zerolog.InfoLevel
 	}
