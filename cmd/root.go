@@ -23,6 +23,8 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
+		level := parseLogLevel(logLevel)
+		configureLogger(level)
 		zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 		log.Info().Msg("This is an info log")
 		log.Debug().Msg("This is a debug log")
