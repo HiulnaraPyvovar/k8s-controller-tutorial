@@ -9,7 +9,6 @@ on:
       - '**.sum'
       - 'charts/**'
       - 'cmd/**'
-      - 'pkg/**'
       - '.github/workflows/ci.yml'
   pull_request:
     branches: [ "main", "feature/**" ]
@@ -19,7 +18,6 @@ on:
       - '**.sum'
       - 'charts/**'
       - 'cmd/**'
-      - 'pkg/**'
       - '.github/workflows/ci.yml'
 
 jobs:
