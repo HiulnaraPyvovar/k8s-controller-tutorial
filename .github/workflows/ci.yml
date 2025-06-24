@@ -57,18 +57,18 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set lowercased image name
-        id: image
-        run: |
-          echo "repo_lc=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ steps.image.outputs.repo_lc }}/app:${{ steps.vars.outputs.docker_tag }} .
+        run: make docker-build
+        env:
+          TAG: ${{ steps.vars.outputs.docker_tag }}
       - name: Trivy Scan
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: ghcr.io/${{ steps.image.outputs.repo }}/app:${{ steps.vars.outputs.docker_tag }}
+          image-ref: ghcr.io/${{ steps.image.outputs.repo_lc }}/app:${{ steps.vars.outputs.docker_tag }}
       - name: Push Docker image
-        run: docker push  ghcr.io/${{ github.repository }}/app:${{ steps.vars.outputs.docker_tag }}
+        run: make docker-push
+        env:
+          TAG: ${{ steps.vars.outputs.docker_tag }}
       - name: Package Helm chart
         run: |
           helm package charts/k8s-controller-tutorial --version ${{ steps.vars.outputs.version }} --app-version ${{ steps.vars.outputs.app_version }}
