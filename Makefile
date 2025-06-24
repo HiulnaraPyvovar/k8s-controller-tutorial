@@ -1,6 +1,6 @@
 APP = k8s-controller-tutorial
 VERSION ?= $(shell git describe --tags --always --dirty)
-BUILD_FLAGS = -v -o $(APP) -ldflags "-X=github.com/den-vasyliev/$(APP)/cmd.appVersion=$(VERSION)"
+BUILD_FLAGS = -v -o $(APP) -ldflags "-X=github.com/hiulnarapyvovar/$(APP)/cmd.appVersion=$(VERSION)"
 
 .PHONY: all build test run docker-build clean
 

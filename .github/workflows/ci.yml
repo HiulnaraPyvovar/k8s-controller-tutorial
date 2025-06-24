@@ -59,6 +59,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Docker image
         run: docker build -t ghcr.io/${{ github.repository }}/app:${{ steps.vars.outputs.docker_tag }} .
+      - name: Set lowercased image name
+        id: image
+        run: |
+          echo "repo_lc=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
       - name: Trivy Scan
         uses: aquasecurity/trivy-action@0.28.0
         with:
