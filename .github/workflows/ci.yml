@@ -66,9 +66,9 @@ jobs:
       - name: Trivy Scan
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: ghcr.io/${{ steps.image.outputs.repo_lc }}/app:${{ steps.vars.outputs.docker_tag }}
+          image-ref: ghcr.io/${{ steps.image.outputs.repo }}/app:${{ steps.vars.outputs.docker_tag }}
       - name: Push Docker image
-        run: docker push ghcr.io/${{ steps.image.outputs.repo_lc }}/app:${{ steps.vars.outputs.docker_tag }}
+        run: docker push  ghcr.io/${{ github.repository }}/app:${{ steps.vars.outputs.docker_tag }}
       - name: Package Helm chart
         run: |
           helm package charts/k8s-controller-tutorial --version ${{ steps.vars.outputs.version }} --app-version ${{ steps.vars.outputs.app_version }}
