@@ -1,4 +1,4 @@
-module github.com/yourusername/k8s-controller-tutorial
+module github.com/hiulnarapyvovar/k8s-controller-tutorial
 
 go 1.24.2
 

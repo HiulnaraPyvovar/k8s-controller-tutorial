@@ -8,7 +8,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/valyala/fasthttp"
-	"github.com/yourusername/k8s-controller-tutorial/pkg/informer"
+	"github.com/hiulnarapyvovar/k8s-controller-tutorial/pkg/informer"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
