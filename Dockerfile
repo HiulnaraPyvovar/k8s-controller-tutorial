@@ -4,7 +4,7 @@ COPY . .
 ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 ARG Version=dev
-RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -v -o k8s-controller-tutorial -ldflags "-X=github.com/hiulnarapyvovar/k8s-controller-tutorial/cmd.appVersion=$VERSION" main.go
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -v -o k8s-controller-tutorial -ldflags "-X=github.com/yourusername/k8s-controller-tutorial/cmd.appVersion=$VERSION" main.go
 
 # Final stage
 FROM gcr.io/distroless/static-debian12
