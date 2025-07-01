@@ -1,10 +1,9 @@
-module github.com/yourusername/k8s-controller-tutorial
+module github.com/hiulnarapyvovar/k8s-controller-tutorial
 
 go 1.24.2
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/hiulnarapyvovar/k8s-controller-tutorial v0.0.0-20250628085310-44823554754c
 	github.com/rs/zerolog v1.34.0
 	github.com/spf13/cobra v1.9.1
 	github.com/stretchr/testify v1.10.0
