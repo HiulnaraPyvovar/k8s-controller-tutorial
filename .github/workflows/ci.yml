@@ -21,6 +21,12 @@ on:
       - 'cmd/**'
       - 'pkg/**'
       - '.github/workflows/ci.yml'
+      
+env:
+  REGISTRY: ghcr.io
+  REPOSITORY: hiulnarapyvovar/k8s-controller-tutorial
+  GO_VERSION: '1.24.4'
+
 
 jobs:
   build:
@@ -33,7 +39,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24.2'
+          go-version: ${{ env.GO_VERSION }}
       - name: Set version
         id: vars
         run: |
@@ -50,6 +56,12 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "app_version=$APP_VERSION" >> $GITHUB_OUTPUT
           echo "docker_tag=$DOCKER_TAG" >> $GITHUB_OUTPUT
+
+      - name: Extract version and commit
+        run: |
+          echo "VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+          echo "COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          
       - name: Build
         run: make build
       - name: Test
@@ -84,3 +96,24 @@ jobs:
         with:
           name: helm-chart
           path: chart-artifacts/ 
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          files: chart-artifacts/*.tgz
+          body: |
+                ## 🛠️ Tech details
+
+                - Version: ${{ github.ref_name }}
+                - Author: ${{ github.actor }}
+
+                ## 📦 Artifacts
+
+                - Docker-image: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.VERSION }}-${{ env.COMMIT }}
+                - Helm chart:  in "Artifacts" tab of current release 
+
+        # End of body
+
+        # Set environment variable for the release step
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
