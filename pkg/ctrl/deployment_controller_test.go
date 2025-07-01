@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
-	testutil "github.com/yourusername/k8s-controller-tutorial/pkg/testutil"
+	testutil "github.com/hiulnarapyvovar/k8s-controller-tutorial/pkg/testutil"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
