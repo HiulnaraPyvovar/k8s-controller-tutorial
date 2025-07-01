@@ -52,7 +52,7 @@ var serverCmd = &cobra.Command{
 		if err := ctrl.AddDeploymentController(mgr); err != nil {
 			log.Error().Err(err).Msg("Failed to add deployment controller")
 			os.Exit(1)
-		}		
+		}
 
 		go informer.StartDeploymentInformer(ctx, clientset)
 		go func() {
@@ -114,11 +114,11 @@ func getServerKubeClient(kubeconfigPath string, inCluster bool) (*kubernetes.Cli
 }
 
 func init() {
-	rootCmd.AddCommand(serverCmd)
 	serverCmd.Flags().IntVar(&serverPort, "port", 8080, "Port to run the server on")
 	serverCmd.Flags().StringVar(&serverKubeconfig, "kubeconfig", "", "Path to the kubeconfig file")
 	serverCmd.Flags().BoolVar(&serverInCluster, "in-cluster", false, "Use in-cluster Kubernetes config")
 	serverCmd.Flags().BoolVar(&enableLeaderElection, "enable-leader-election", true, "Enable leader election for controller manager")
 	serverCmd.Flags().StringVar(&leaderElectionNamespace, "leader-election-namespace", "default", "Namespace for leader election")
 	serverCmd.Flags().IntVar(&metricsPort, "metrics-port", 8081, "Port for controller manager metrics")
+	rootCmd.AddCommand(serverCmd)
 }
