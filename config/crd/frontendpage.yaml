@@ -1,4 +1,4 @@
-apiversion: frontendpage.hiu0m.io/v1alpha1
+apiVersion: frontendpage.hiu0m.io/v1alpha1
 kind: FrontendPage
 metadata:
   name: testpage
