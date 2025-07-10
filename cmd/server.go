@@ -63,7 +63,7 @@ var serverCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		if err := ctrl.AddDeploymentController(mgr); err != nil {
+		if err := ctrl.AddFrontendController(mgr); err != nil {
 			log.Error().Err(err).Msg("Failed to add frontend controller")
 			os.Exit(1)
 		}
