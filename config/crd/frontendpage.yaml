@@ -1,0 +1,8 @@
+apiversion: frontendpage.hiu0m.io/v1alpha1
+kind: FrontendPage
+metadata:
+  name: testpage
+spec:
+  image: nginx:latest
+  contents: Best page ever
+  replicas: 1
