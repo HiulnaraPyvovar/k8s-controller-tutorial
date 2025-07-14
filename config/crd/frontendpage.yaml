@@ -4,5 +4,5 @@ metadata:
   name: testpage
 spec:
   image: nginx:latest
-  contents: Best page ever
+  contents: Best page ever!
   replicas: 1
