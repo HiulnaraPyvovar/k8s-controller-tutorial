@@ -60,9 +60,9 @@ func TestFrontendPageReconciler_CreateFlow(t *testing.T) {
 	// 1. Check if the CRD is present
 	extClient, err := apiextensionsclient.NewForConfig(restCfg)
 	require.NoError(t, err)
-	crd, err := extClient.ApiextensionsV1().CustomResourceDefinitions().Get(ctx, "frontendpages.frontendpage.alex0m.io", metav1.GetOptions{})
-	require.NoError(t, err, "CRD frontendpages.frontendpage.alex0m.io should be present in the cluster")
-	require.Equal(t, "frontendpages.frontendpage.alex0m.io", crd.Name)
+	crd, err := extClient.ApiextensionsV1().CustomResourceDefinitions().Get(ctx, "frontendpages.frontendpage.hiu0m.io", metav1.GetOptions{})
+	require.NoError(t, err, "CRD frontendpages.frontendpage.hiu0m.io should be present in the cluster")
+	require.Equal(t, "frontendpages.frontendpage.hiu0m.io", crd.Name)
 
 	printTableState(ctx, k8sClient, ns, t, "initial")
 
